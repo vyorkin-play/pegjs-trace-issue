@@ -1,5 +1,4 @@
 import peg from 'pegjs';
-import Tracer from 'pegjs-backtrace';
 
 export default function run() {
   const grammar = `
@@ -13,20 +12,15 @@ export default function run() {
     expr = term ([-+] term)*
     term = factor ([*/] factor)*
     factor = '(' expr ')' / number
-    nmber = digits:[0-9]+ { return digits.join(''); }
+    number = digits:[0-9]+ { return new Number(digits); }
   `;
-  //  ^-- example error ("nmber")
 
-  const text = '1+10';
-  const tracer = new Tracer(text);
-
-  try {
-    const parser = peg.generate(grammar, { trace: true });
-    const result = parser.parse(text, { tracer });
-
-    console.log('result: ', result);
-  } catch (err) {
-    console.log('error: ', err);
-    console.log(tracer.getBacktraceString());
-  }
+  const parser = peg.generate(grammar, { trace: true });
+  const result = parser.parse('1+10', {
+    tracer: {
+      trace: function (evt) {
+        console.log(evt);
+      },
+    },
+  });
 }

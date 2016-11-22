@@ -13,7 +13,10 @@ export default {
   plugins: [
     nodeResolve(),
     commonjs({
-      include: 'node_modules/**',
+      include: [
+        'node_modules/**',
+        'src/generated-parsers/**',
+      ],
     }),
     babel(babelrc()),
     pegjs(),

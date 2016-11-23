@@ -6,6 +6,7 @@
   "author": "Vasiliy Yorkin <vasiliy.yorkin@gmail.com> (https://github.com/vyorkin)",
   "license": "WTFPL",
   "dependencies": {
+    "most": "^1.1.0",
     "pegjs": "^0.10.0",
     "ramda": "^0.22.1"
   },

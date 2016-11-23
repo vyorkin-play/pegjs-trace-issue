@@ -1,3 +1,3 @@
-import run from './simple-with-plugin';
+import run from './playground';
 
 run();

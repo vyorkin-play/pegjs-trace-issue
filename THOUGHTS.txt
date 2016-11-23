@@ -1,0 +1,43 @@
+SYNTAX SKETCHES
+---------------
+
+basically, there are 2 kinds of cells (data sources):
+
+1) static cell - <scalar> / <array>
+2) dynamic (time-bound) cell - sequence of events made avaiable over time
+
+data types and static cells:
+
+A[4] := 1
+C[8] := [47, 32, 54]
+D[1] := 'string'
+D[2] := null
+
+dynamic (time-bound) cells:
+
+T[1] := periodic(3, 4)
+I[5] := periodic({A[4]}, 2) ->
+        iterate(x => x + 1 + {C[8][2]}, x) ->
+        take({C[8][0]})
+
+that uses specific transport:
+
+A[1] := sse('url')
+B[1] := xhr('url', {I[5]})
+C[1] := websocket('url', interval)
+
+or default transport:
+
+X[3] := listen('url') | <rql | whatever>
+                      ^   ^       ^
+                      |   |       |
+                      ----^-------^- filter
+
+expressions with references:
+
+B[2] := {A[1]} * {B[1]} * 2
+
+(which may result in error)
+
+expressions can be defined within a text file
+using simple DSL, which makes diffs possible

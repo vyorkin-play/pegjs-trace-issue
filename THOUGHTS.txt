@@ -16,8 +16,7 @@ D[2] := null
 dynamic (time-bound) cells:
 
 T[1] := periodic(3, 4)
-I[5] := periodic({A[4]}, 2) ->
-        iterate(x => x + 1 + {C[8][2]}, x) ->
+I[5] := iterate(x => delay(x + 1), {C[8][2]}, x) ->
         take({C[8][0]})
 
 that uses specific transport:

@@ -1,11 +1,12 @@
 import { generate } from 'pegjs';
 import { createFilter } from 'rollup-pluginutils';
 import plugin1 from '../plugins/plugin1';
+import * as most from 'most';
 import R from 'ramda';
 
 const dependencies = `
+  import * as most from 'most';
   import R from 'ramda';
-  import most from 'most';
 `;
 const exporter = 'export default';
 const knownOptionKeys = ['target', 'include', 'exclude'];

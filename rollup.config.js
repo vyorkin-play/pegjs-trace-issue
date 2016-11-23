@@ -11,7 +11,9 @@ export default {
   entry: 'src/index.js',
   dest: 'dist/bundle.js',
   plugins: [
-    nodeResolve(),
+    nodeResolve({
+      jsnext: true,
+    }),
     commonjs({
       include: [
         'node_modules/**',

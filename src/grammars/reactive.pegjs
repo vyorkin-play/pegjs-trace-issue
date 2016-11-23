@@ -49,21 +49,28 @@ Declarations
     return buildList(head, tail, 1);
   }
 
-Declaration = Identifier _ AssingmentOperator _ Expression
+Declaration = Identifier _ AssingmentOperator _ AdditiveExpression
 
-Identifier = _ index:ArrayLiteral _ {
+Identifier = _ value:ArrayLiteral _ {
   return {
     type: "Identifier",
-    index,
+    value,
   };
 }
 
-Expression = letters:[a-zA-Z]+ {
-  return {
-    type: "Expression",
-    value: letters.join(''),
-  };
-}
+AdditiveExpression
+  = lhs:MultiplicativeExpression _ "+" _ rhs:AdditiveExpression { return lhs + rhs; }
+  / MultiplicativeExpression
+
+MultiplicativeExpression
+  = lhs:PrimaryExpression _ "*" _ rhs:MultiplicativeExpression { return lhs * rhs; }
+  / PrimaryExpression
+
+PrimaryExpression
+  = DecimalIntegerLiteral
+  / "(" additive:AdditiveExpression ")" {
+    return additive;
+  }
 
 Elision = "," commas:(_ ",")* {
   return filledArray(commas.length + 1);
@@ -71,17 +78,21 @@ Elision = "," commas:(_ ",")* {
 
 ArrayLiteral "array"
   = "[" _ elements:ElementList _ "]" {
-      return {
-        type: "ArrayExpression",
-        elements,
-      };
-    }
+    return {
+      type: "ArrayExpression",
+      elements,
+    };
+  }
 
 ElementList
   = head:DecimalIntegerLiteral
     tail:("," _ value:DecimalIntegerLiteral { return value; })* {
       return [head].concat(tail);
     }
+
+// ----- operators ------
+
+AssingmentOperator = ":="
 
 // ----- lexical grammar -----
 
@@ -120,7 +131,3 @@ LineTerminatorSequence "end of line"
 
 // separator, space
 Zs = [\u0020\u00A0\u1680\u2000-\u200A\u202F\u205F\u3000]
-
-// ----- operators ------
-
-AssingmentOperator = ":="

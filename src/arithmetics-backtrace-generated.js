@@ -2,8 +2,8 @@ import parser from './generated-parsers/arithmetics-parser';
 import Tracer from 'pegjs-backtrace';
 
 export default function run() {
-  const text = '1+10 a b'; // <-- example error
-  const tracer = new Tracer(text);
+  const text = '1+^a'; // <-- example error
+  const tracer = new Tracer(text, { useColor: false });
 
   try {
     const result = parser.parse(text, { tracer });

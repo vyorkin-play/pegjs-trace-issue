@@ -1,3 +1,3 @@
-import run from './arithmetics-backtrace-generated';
+import run from './simple-with-plugin';
 
 run();

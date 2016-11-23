@@ -1,8 +1,7 @@
 import babel from 'rollup-plugin-babel';
-import babelrc from 'babelrc-rollup';
 import nodeResolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
-import pegjs from 'rollup-plugin-pegjs';
+import pegjs from './src/rollup/pegjs';
 
 const pkg = require('./package.json');
 const external = Object.keys(pkg.dependencies);
@@ -18,8 +17,13 @@ export default {
         'src/generated-parsers/**',
       ],
     }),
-    babel(babelrc()),
+    babel({
+      exclude: [
+        'node_modules/**',
+        'src/grammars/*.pegjs',
+        'src/generated-parsers/**',
+      ],
+    }),
     pegjs(),
-  ],
-  format: 'iife',
+  ]
 };
